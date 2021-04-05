@@ -1,10 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import DogDetails from './DogDetails';
 
 function App() {  
   return (
-    <button onClick={(bark)=>{ alert('Alerta')}} >botão</button> 
+      <div>
+      <button onClick={(bark)=>{ alert('Alerta')}} >botão</button>
+      <DogDetails/>
+      </div>
   );
 }
 

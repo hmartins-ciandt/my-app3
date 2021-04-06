@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import DogDetails from './DogDetails';
+import DogDetails from './DogDetails/DogDetails';
 
 function App() {  
   return (

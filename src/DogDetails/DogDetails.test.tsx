@@ -9,6 +9,7 @@ test('should render a dog image and a dog name and a button', () => {
   const buttonWrapper = screen.queryByText('Bark');
   const h5Wrapper = screen.queryByText('Rex');
   const imgWrapper = screen.getByRole('img');
+  window.alert = jest.fn();
 
   //When
   buttonWrapper?.click();
@@ -17,5 +18,5 @@ test('should render a dog image and a dog name and a button', () => {
   expect(buttonWrapper).toBeInTheDocument();
   expect(h5Wrapper).toBeInTheDocument();
   expect(imgWrapper).toHaveAttribute('src', 'https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg');
-  expect(buttonWrapper?.click).toHaveBeenCalledTimes;
+  expect(window.alert).toHaveBeenCalledTimes(1);
 });

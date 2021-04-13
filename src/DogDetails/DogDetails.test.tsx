@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { render, screen, } from '@testing-library/react';
 import DogDetails from './DogDetails';
-import { count } from 'console';
 
 test('should render a dog name and a dog image', () => {
   render(<DogDetails dogName={'Rex'}

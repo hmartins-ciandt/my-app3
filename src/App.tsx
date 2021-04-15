@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import DogDetails from './DogDetails/DogDetails';
 import CreateBeerForm from './BeerForm/CreateBeerForm';

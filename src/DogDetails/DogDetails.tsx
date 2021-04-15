@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import '../App.css';
-import { request } from 'http';
 
 function DogDetails({dogName, dogImage, onBark}:any) { 
 const [count, setCount] = useState(0);

@@ -5,7 +5,7 @@ configure({
   adapter: new Adapter()
 });
 
-test('should render a button and when clicked should call an alert', () => {
+test('should render a form and a button and when clicked should call console', () => {
     const wrapper = shallow(<CreateBeerForm  />);
     
     //Given

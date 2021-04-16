@@ -1,12 +1,12 @@
-import React from 'react';
-import { render, screen, } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('should render a button and when clicked should call an alert', () => {
+test("should render a button and when clicked should call an alert", () => {
   render(<App />);
 
   //Given
-  const buttonWrapper = screen.queryByText('botão');
+  const buttonWrapper = screen.queryByText("botão");
   window.alert = jest.fn();
 
   //When

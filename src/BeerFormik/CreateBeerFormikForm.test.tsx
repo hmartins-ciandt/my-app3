@@ -5,16 +5,12 @@ configure({
   adapter: new Adapter(),
 });
 
-test("should render a form and a button and when clicked should call alert", () => {
+test("should render a form and a button and when clicked should call a console", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
   const wrapperChild = wrapper.childAt(0);
 
   //Given
   const buttonInput = wrapper.find("button");
-  const nameInput = wrapper.find({ type: "text" });
-  const selectInput = wrapper.find("select");
-  const ingredientsInput = wrapper.find("textarea");
-  const checkboxInput = wrapper.find({ type: "checkbox" });
   console.log = jest.fn();
   //When
 
@@ -27,12 +23,45 @@ test("should render a form and a button and when clicked should call alert", () 
 
   //Then
   expect(console.log).toHaveBeenCalledTimes(1);
+  expect(buttonInput).not.toBeDisabled;
+  expect(console.log).toBeCalledWith(
+    `beer name: redbeer\ntype of beer: lager\nhas corn: true\ningredients: barley...`
+  );
+});
+
+test("should render a form and a button", () => {
+  const wrapper = shallow(<CreateBeerFormikForm />);
+  //Given
+  const buttonInput = wrapper.find("button");
+  const nameInput = wrapper.find({ type: "text" });
+  const selectInput = wrapper.find("select");
+  const ingredientsInput = wrapper.find("textarea");
+  const checkboxInput = wrapper.find({ type: "checkbox" });
+  //When
+  //Then
   expect(buttonInput).toBeInTheDocument;
   expect(nameInput).toBeInTheDocument;
   expect(selectInput).toBeInTheDocument;
   expect(ingredientsInput).toBeInTheDocument;
   expect(checkboxInput).toBeInTheDocument;
-  expect(console.log).toBeCalledWith(
-    `beer name: redbeer\ntype of beer: lager\nhas corn: true\ningredients: barley...`
-  );
+});
+
+test("should render a form and a button and the button be disabled", () => {
+  const wrapper = shallow(<CreateBeerFormikForm />);
+  const wrapperChild = wrapper.childAt(0);
+
+  //Given
+  const buttonInput = wrapper.find("button");
+
+  //When
+  wrapperChild.invoke("onSubmit")({
+    beerName: "",
+    beerType: "",
+    hasCorn: false,
+    ingredients: "",
+  });
+
+  //Then
+  expect(buttonInput).toBeInTheDocument;
+  expect(buttonInput).toBeDisabled;
 });

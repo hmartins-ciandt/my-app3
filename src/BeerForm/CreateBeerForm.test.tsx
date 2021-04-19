@@ -22,6 +22,54 @@ test("should render a form and a button and when clicked should call console", (
   ingredientsInput.simulate("change", { target: { value: "barley..." } });
   wrapper.find("button").simulate("click");
   //Then
+  expect(
+    wrapper.matchesElement(
+      <div className="divForm">
+        <form>
+          <label>
+            Beer Name:
+            <input type="text" name="beer"></input>
+          </label>
+          <br />
+          <label>
+            Type of Beer:
+            <select>
+              <option value="">Selecione</option>
+              <option value="ale">Ale</option>
+              <option value="lager">Lager</option>
+              <option value="stout">Stout</option>
+            </select>
+          </label>
+          <br />
+          <label>
+            Has Corn:
+            <input type="checkbox" name="corn"></input>
+          </label>
+          <br />
+          <label>
+            Ingredients:
+            <textarea></textarea>
+          </label>
+          <br />
+        </form>
+        <button>Submit</button>
+      </div>
+    )
+  ).toBeTruthy();
+  expect(buttonInput).not.toBeDisabled;
+  expect(console.log).toBeCalledWith(
+    `beer name: redbeer\ntype of beer: lager\nhas corn: true\ningredients: barley...`
+  );
+});
+
+test("should render a form and a button and the button be disabled", () => {
+  const wrapper = shallow(<CreateBeerForm />);
+
+  //Given
+  const buttonInput = wrapper.find("button");
+  //When
+  wrapper.find("button").simulate("click");
+  //Then
   expect(buttonInput).toBeInTheDocument;
   expect(
     wrapper.matchesElement(
@@ -57,7 +105,5 @@ test("should render a form and a button and when clicked should call console", (
       </div>
     )
   ).toBeTruthy();
-  expect(console.log).toBeCalledWith(
-    `beer name: redbeer\ntype of beer: lager\nhas corn: true\ningredients: barley...`
-  );
+  expect(buttonInput).toBeDisabled;
 });

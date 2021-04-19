@@ -15,12 +15,13 @@ function CreateBeerForm() {
             type="text"
             name="beer"
             onChange={(e) => setName(e.target.value)}
+            required
           ></input>
         </label>
         <br />
         <label>
           Type of Beer:
-          <select onChange={(e) => setType(e.target.value)}>
+          <select onChange={(e) => setType(e.target.value)} required>
             <option value="">Selecione</option>
             <option value="ale">Ale</option>
             <option value="lager">Lager</option>
@@ -34,19 +35,31 @@ function CreateBeerForm() {
             type="checkbox"
             name="corn"
             onChange={() => setCorn(!hasCorn)}
+            required
           ></input>
         </label>
         <br />
         <label>
           Ingredients:
-          <textarea onChange={(e) => setIng(e.target.value)}></textarea>
+          <textarea
+            onChange={(e) => setIng(e.target.value)}
+            required
+          ></textarea>
         </label>
         <br />
       </form>
+
       <button
         onClick={() =>
           console.log(
             `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
+          )
+        }
+        disabled={
+          !(
+            validateform(beerName) &&
+            validateform(beerType) &&
+            validateform(ingredients)
           )
         }
       >
@@ -55,5 +68,12 @@ function CreateBeerForm() {
     </div>
   );
 }
+const validateform = (x: any) => {
+  if (x == "") {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 export default CreateBeerForm;

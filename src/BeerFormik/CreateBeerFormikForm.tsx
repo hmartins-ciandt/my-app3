@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { Field, Form, Formik } from "formik";
 import "../App.css";
+import * as yup from "yup";
 
 function CreateBeerFormikForm() {
   return (
@@ -12,22 +12,32 @@ function CreateBeerFormikForm() {
           hasCorn: false,
           ingredients: "",
         }}
+        validationSchema={yup.object({
+          beerName: yup.string().required(),
+          beerType: yup.string().required(),
+          hasCorn: yup.boolean().required(),
+          ingredients: yup.string().required(),
+        })}
         onSubmit={(values) => {
           console.log(
             `beer name: ${values.beerName}\ntype of beer: ${values.beerType}\nhas corn: ${values.hasCorn}\ningredients: ${values.ingredients}`
           );
         }}
       >
-        {({ handleChange, handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
+        {(formik) => (
+          <Form onSubmit={formik.handleSubmit}>
             <label>
               Beer Name:
-              <Field type="text" name="beerName" onChange={handleChange} />
+              <Field
+                type="text"
+                name="beerName"
+                onChange={formik.handleChange}
+              />
             </label>
             <br />
             <label>
               Type of Beer:
-              <select name="beerType" onChange={handleChange}>
+              <select name="beerType" onChange={formik.handleChange}>
                 <option value="">Selecione</option>
                 <option value="ale">Ale</option>
                 <option value="lager">Lager</option>
@@ -40,16 +50,21 @@ function CreateBeerFormikForm() {
               <input
                 type="checkbox"
                 name="hasCorn"
-                onChange={handleChange}
+                onChange={formik.handleChange}
               ></input>
             </label>
             <br />
             <label>
               Ingredients:
-              <textarea name="ingredients" onChange={handleChange}></textarea>
+              <textarea
+                name="ingredients"
+                onChange={formik.handleChange}
+              ></textarea>
             </label>
             <br />
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={!formik.dirty || !formik.isValid}>
+              Submit
+            </button>
           </Form>
         )}
       </Formik>

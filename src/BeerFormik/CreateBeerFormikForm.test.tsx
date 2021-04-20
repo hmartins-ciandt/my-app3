@@ -5,6 +5,41 @@ configure({
   adapter: new Adapter(),
 });
 
+test("should render a form and a button and the button be abled", () => {
+  const wrapper = shallow(<CreateBeerFormikForm />);
+  const wrapperChild = wrapper.childAt(0);
+  //Given
+  const nameInput = wrapperChild.dive().find({ name: "beerName" });
+  const selectInput = wrapperChild.dive().find({ name: "beerType" });
+  const ingredientsInput = wrapperChild.dive().find({ name: "ingredients" });
+  const checkboxInput = wrapperChild.dive().find({ name: "hasCorn" });
+  console.log = jest.fn();
+  //When
+
+  nameInput.simulate("change", {
+    persist: () => {},
+    target: { name: "beerName", value: "redbeer" },
+  });
+  selectInput.simulate("change", {
+    persist: () => {},
+    target: { name: "beerType", value: "lager" },
+  });
+  checkboxInput.simulate("change", {
+    persist: () => {},
+    target: { name: "hasCorn" },
+  });
+  ingredientsInput.simulate("change", {
+    persist: () => {},
+    target: { name: "ingredients", value: "barley..." },
+  });
+
+  wrapperChild.dive().find("button").simulate("click");
+
+  //Then
+  expect(console.log).toHaveBeenCalledTimes(1);
+  expect(console.log).toBeCalledWith(`disabled :false`);
+});
+
 test("should render a form and a button and when clicked should call a console", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
   const wrapperChild = wrapper.childAt(0);
@@ -54,14 +89,8 @@ test("should render a form and a button and the button be disabled", () => {
   const buttonInput = wrapper.find("button");
 
   //When
-  wrapperChild.invoke("onSubmit")({
-    beerName: "",
-    beerType: "",
-    hasCorn: false,
-    ingredients: "",
-  });
 
   //Then
   expect(buttonInput).toBeInTheDocument;
-  expect(buttonInput).toBeDisabled;
+  expect(wrapperChild.dive().find("button").prop("disabled")).toBe(true);
 });

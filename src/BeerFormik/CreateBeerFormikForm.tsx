@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import "../App.css";
 import * as yup from "yup";
 
@@ -28,7 +28,7 @@ function CreateBeerFormikForm() {
           <Form onSubmit={formik.handleSubmit}>
             <label>
               Beer Name:
-              <Field
+              <input
                 type="text"
                 name="beerName"
                 onChange={formik.handleChange}
@@ -62,7 +62,13 @@ function CreateBeerFormikForm() {
               ></textarea>
             </label>
             <br />
-            <button type="submit" disabled={!formik.dirty || !formik.isValid}>
+            <button
+              type="submit"
+              disabled={!(formik.dirty && formik.isValid)}
+              onClick={() => {
+                console.log(`disabled :${formik.dirty && formik.isValid}`);
+              }}
+            >
               Submit
             </button>
           </Form>

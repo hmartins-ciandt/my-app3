@@ -6,6 +6,17 @@ function CreateBeerForm() {
   const [beerType, setType] = useState("");
   const [hasCorn, setCorn] = useState(false);
   const [ingredients, setIng] = useState("");
+  const disableValid = () => {
+    if (
+      validateform(beerName) &&
+      validateform(beerType) &&
+      validateform(ingredients)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <div className="divForm">
       <form>
@@ -55,19 +66,14 @@ function CreateBeerForm() {
             `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
           )
         }
-        disabled={
-          !(
-            validateform(beerName) &&
-            validateform(beerType) &&
-            validateform(ingredients)
-          )
-        }
+        disabled={!disableValid()}
       >
         Submit
       </button>
     </div>
   );
 }
+
 const validateform = (x: any) => {
   if (x == "") {
     return false;

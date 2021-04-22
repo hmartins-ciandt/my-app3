@@ -7,104 +7,59 @@ configure({
 
 test("should render a form and a button and the button be disabled", () => {
   const wrapper = shallow(<CreateBeerForm />);
-
   //Given
-  const buttonInput = wrapper.find("button");
+  const buttonInput = wrapper.find({ name: "botao" });
   //When
-  wrapper.find("button").simulate("click");
+  wrapper.find({ name: "botao" }).simulate("click");
 
   //Then
   expect(buttonInput).toBeInTheDocument;
-  expect(
-    wrapper.matchesElement(
-      <div className="divForm">
-        <form>
-          <label>
-            Beer Name:
-            <input type="text" name="beer"></input>
-          </label>
-          <br />
-          <label>
-            Type of Beer:
-            <select>
-              <option value="">Selecione</option>
-              <option value="ale">Ale</option>
-              <option value="lager">Lager</option>
-              <option value="stout">Stout</option>
-            </select>
-          </label>
-          <br />
-          <label>
-            Has Corn:
-            <input type="checkbox" name="corn"></input>
-          </label>
-          <br />
-          <label>
-            Ingredients:
-            <textarea></textarea>
-          </label>
-          <br />
-        </form>
-        <button>Submit</button>
-      </div>
-    )
-  ).toBeTruthy();
-  expect(wrapper.find("button").prop("disabled")).toBe(true);
+
+  expect(wrapper.find({ name: "botao" }).prop("disabled")).toBe(true);
 });
 
 test("should render a form and a button and when clicked should call console", () => {
   const wrapper = shallow(<CreateBeerForm />);
 
   //Given
-  const nameInput = wrapper.find({ type: "text" });
-  const selectInput = wrapper.find("select");
-  const ingredientsInput = wrapper.find("textarea");
-  const checkboxInput = wrapper.find({ type: "checkbox" });
+  const nameInput = wrapper.find({ name: "beerName" });
+  const selectInput = wrapper.find({ name: "beerType" });
+  const ingredientsInput = wrapper.find({ name: "ingredients" });
+  const checkboxInput = wrapper
+    .childAt(0)
+    .childAt(0)
+    .childAt(2)
+    .dive()
+    .dive()
+    .find({ name: "hasCorn" });
   console.log = jest.fn();
   //When
   nameInput.simulate("change", { target: { value: "redbeer" } });
   selectInput.simulate("change", { target: { value: "lager" } });
   checkboxInput.simulate("change");
   ingredientsInput.simulate("change", { target: { value: "barley..." } });
-  wrapper.find("button").simulate("click");
+  wrapper.find({ name: "botao" }).simulate("click");
 
   //Then
-  expect(
-    wrapper.matchesElement(
-      <div className="divForm">
-        <form>
-          <label>
-            Beer Name:
-            <input type="text" name="beer"></input>
-          </label>
-          <br />
-          <label>
-            Type of Beer:
-            <select>
-              <option value="">Selecione</option>
-              <option value="ale">Ale</option>
-              <option value="lager">Lager</option>
-              <option value="stout">Stout</option>
-            </select>
-          </label>
-          <br />
-          <label>
-            Has Corn:
-            <input type="checkbox" name="corn"></input>
-          </label>
-          <br />
-          <label>
-            Ingredients:
-            <textarea></textarea>
-          </label>
-          <br />
-        </form>
-        <button>Submit</button>
-      </div>
-    )
-  ).toBeTruthy();
-  expect(wrapper.find("button").prop("disabled")).toBe(false);
+  expect(wrapper.find({ name: "botao" }).prop("disabled")).toBe(false);
   expect(console.log).toBeCalledWith(
     `beer name: redbeer\ntype of beer: lager\nhas corn: true\ningredients: barley...`
   );
+});
+
+test("should render a form and a button", () => {
+  const wrapper = shallow(<CreateBeerForm />);
+  //Given
+  const buttonInput = wrapper.find({ name: "botao" });
+  const nameInput = wrapper.find({ name: "beerName" });
+  const selectInput = wrapper.find({ name: "beerType" });
+  const ingredientsInput = wrapper.find({ name: "ingredients" });
+  const checkboxInput = wrapper.find({ name: "hasCorn" });
+  //When
+  //Then
+  expect(buttonInput).toBeInTheDocument;
+  expect(nameInput).toBeInTheDocument;
+  expect(selectInput).toBeInTheDocument;
+  expect(ingredientsInput).toBeInTheDocument;
+  expect(checkboxInput).toBeInTheDocument;
 });

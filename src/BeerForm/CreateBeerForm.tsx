@@ -1,5 +1,17 @@
+import {
+  Button,
+  Card,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import React, { useState } from "react";
 import "../App.css";
+
+const selecao = ["Selecione", "Ale", "Lager", "Stout"];
 
 function CreateBeerForm() {
   const [beerName, setName] = useState("");
@@ -18,58 +30,70 @@ function CreateBeerForm() {
     }
   };
   return (
-    <div className="divForm">
-      <form>
-        <label>
-          Beer Name:
-          <input
+    <div>
+      <Card>
+        <FormControl>
+          <TextField
             type="text"
-            name="beer"
+            name="beerName"
+            id="beerName"
+            label="Beer Name"
             onChange={(e) => setName(e.target.value)}
             required
-          ></input>
-        </label>
-        <br />
-        <label>
-          Type of Beer:
-          <select onChange={(e) => setType(e.target.value)} required>
-            <option value="">Selecione</option>
-            <option value="ale">Ale</option>
-            <option value="lager">Lager</option>
-            <option value="stout">Stout</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          Has Corn:
-          <input
-            type="checkbox"
-            name="corn"
-            onChange={() => setCorn(!hasCorn)}
-            required
-          ></input>
-        </label>
-        <br />
-        <label>
-          Ingredients:
-          <textarea
+          ></TextField>
+
+          <label>
+            Type of Beer:
+            <Select
+              name="beerType"
+              id="beerType"
+              value={beerType}
+              onChange={(e: any) => setType(e.target.value)}
+              required
+            >
+              <MenuItem value={""}>Selecione</MenuItem>
+              <MenuItem value={"ale"}>Ale</MenuItem>
+              <MenuItem value={"lager"}>Lager</MenuItem>
+              <MenuItem value={"stout"}>Stout</MenuItem>
+            </Select>
+          </label>
+
+          <FormControlLabel
+            label="Has Corn:"
+            control={
+              <Checkbox
+                name="hasCorn"
+                id="hasCorn"
+                onChange={() => setCorn(!hasCorn)}
+                required
+              />
+            }
+          />
+
+          <TextField
+            name="ingredients"
+            id="ingredients"
+            label="ingredients"
             onChange={(e) => setIng(e.target.value)}
             required
-          ></textarea>
-        </label>
-        <br />
-      </form>
-
-      <button
-        onClick={() =>
-          console.log(
-            `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
-          )
-        }
-        disabled={!disableValid()}
-      >
-        Submit
-      </button>
+          ></TextField>
+          <br />
+          <Button
+            name="botao"
+            id="botao"
+            color="primary"
+            variant="contained"
+            onClick={() =>
+              console.log(
+                `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
+              )
+            }
+            disabled={!disableValid()}
+          >
+            Submit
+          </Button>
+        </FormControl>
+      </Card>
     </div>
   );
 }

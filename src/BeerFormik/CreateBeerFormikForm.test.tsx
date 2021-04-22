@@ -8,11 +8,20 @@ configure({
 test("should render a form and a button and the button be abled", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
   const wrapperChild = wrapper.childAt(0);
+
   //Given
   const nameInput = wrapperChild.dive().find({ name: "beerName" });
   const selectInput = wrapperChild.dive().find({ name: "beerType" });
   const ingredientsInput = wrapperChild.dive().find({ name: "ingredients" });
-  const checkboxInput = wrapperChild.dive().find({ name: "hasCorn" });
+  const checkboxInput = wrapperChild
+    .dive()
+    .childAt(0)
+    .childAt(0)
+    .childAt(0)
+    .childAt(2)
+    .dive()
+    .dive()
+    .find({ name: "hasCorn" });
   console.log = jest.fn();
   //When
 
@@ -33,7 +42,7 @@ test("should render a form and a button and the button be abled", () => {
     target: { name: "ingredients", value: "barley..." },
   });
 
-  wrapperChild.dive().find("button").simulate("click");
+  wrapperChild.dive().find({ name: "botao" }).simulate("click");
 
   //Then
   expect(console.log).toHaveBeenCalledTimes(1);
@@ -45,7 +54,7 @@ test("should render a form and a button and when clicked should call a console",
   const wrapperChild = wrapper.childAt(0);
 
   //Given
-  const buttonInput = wrapper.find("button");
+  const buttonInput = wrapper.find({ name: "botao" });
   console.log = jest.fn();
   //When
 
@@ -66,12 +75,13 @@ test("should render a form and a button and when clicked should call a console",
 
 test("should render a form and a button", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
+  const wrapperChild = wrapper.childAt(0);
   //Given
-  const buttonInput = wrapper.find("button");
-  const nameInput = wrapper.find({ type: "text" });
-  const selectInput = wrapper.find("select");
-  const ingredientsInput = wrapper.find("textarea");
-  const checkboxInput = wrapper.find({ type: "checkbox" });
+  const buttonInput = wrapper.find({ name: "botao" });
+  const nameInput = wrapperChild.dive().find({ name: "beerName" });
+  const selectInput = wrapperChild.dive().find({ name: "beerType" });
+  const ingredientsInput = wrapperChild.dive().find({ name: "ingredients" });
+  const checkboxInput = wrapperChild.dive().find({ name: "hasCorn" });
   //When
   //Then
   expect(buttonInput).toBeInTheDocument;
@@ -92,5 +102,7 @@ test("should render a form and a button and the button be disabled", () => {
 
   //Then
   expect(buttonInput).toBeInTheDocument;
-  expect(wrapperChild.dive().find("button").prop("disabled")).toBe(true);
+  expect(wrapperChild.dive().find({ name: "botao" }).prop("disabled")).toBe(
+    true
+  );
 });

@@ -11,8 +11,6 @@ import {
 import React, { useState } from "react";
 import "../App.css";
 
-const selecao = ["Selecione", "Ale", "Lager", "Stout"];
-
 function CreateBeerForm() {
   const [beerName, setName] = useState("");
   const [beerType, setType] = useState("");
@@ -77,7 +75,7 @@ function CreateBeerForm() {
             onChange={(e) => setIng(e.target.value)}
             required
           ></TextField>
-          <br />
+
           <Button
             name="botao"
             id="botao"
@@ -99,7 +97,7 @@ function CreateBeerForm() {
 }
 
 const validateform = (x: any) => {
-  if (x == "") {
+  if (x === "") {
     return false;
   } else {
     return true;

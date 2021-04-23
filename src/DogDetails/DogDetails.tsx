@@ -5,7 +5,7 @@ function DogDetails({ dogName, dogImage, onBark }: any) {
   const [count, setCount] = useState(0);
   return (
     <div>
-      <img className="dogImage" src={dogImage}></img>
+      <img className="dogImage" src={dogImage} alt="" />
       <h5>{dogName}</h5>
       <button onClick={() => onBark()}>Bark</button>
       <button onClick={() => setCount(count + 1)}>Scold</button>

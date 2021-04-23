@@ -78,8 +78,7 @@ function CreateBeerFormikForm() {
                   onChange={formik.handleChange}
                   required
                 ></TextField>
-                <br />
-                <br />
+
                 <Button
                   name="botao"
                   id="botao"
@@ -88,7 +87,9 @@ function CreateBeerFormikForm() {
                   variant="contained"
                   disabled={!(formik.dirty && formik.isValid)}
                   onClick={() => {
-                    console.log(`disabled :${formik.dirty && formik.isValid}`);
+                    console.log(
+                      `disabled :${!(formik.dirty && formik.isValid)}`
+                    );
                   }}
                 >
                   Submit

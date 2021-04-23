@@ -5,7 +5,7 @@ configure({
   adapter: new Adapter(),
 });
 
-test("should render a form and a button and the button be abled", () => {
+test("should render a form and a button and the button be enabled", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
   const wrapperChild = wrapper.childAt(0);
 
@@ -46,7 +46,7 @@ test("should render a form and a button and the button be abled", () => {
 
   //Then
   expect(console.log).toHaveBeenCalledTimes(1);
-  expect(console.log).toBeCalledWith(`disabled :false`);
+  expect(console.log).toBeCalledWith(`disabled :true`);
 });
 
 test("should render a form and a button and when clicked should call a console", () => {

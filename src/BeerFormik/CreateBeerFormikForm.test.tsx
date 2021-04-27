@@ -8,16 +8,18 @@ configure({
 test("should render a form and a button and the button be enabled", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
   const wrapperChild = wrapper.childAt(0);
+  const wrapperDive = wrapperChild.dive();
+  const wrapperDiveChild = wrapperDive
+    .childAt(0)
+    .childAt(0)
+    .childAt(0)
+    .childAt(0);
 
   //Given
-  const nameInput = wrapperChild.dive().find({ name: "beerName" });
-  const selectInput = wrapperChild.dive().find({ name: "beerType" });
-  const ingredientsInput = wrapperChild.dive().find({ name: "ingredients" });
-  const checkboxInput = wrapperChild
-    .dive()
-    .childAt(0)
-    .childAt(0)
-    .childAt(0)
+  const nameInput = wrapperDive.find({ name: "beerName" });
+  const selectInput = wrapperDive.find({ name: "beerType" });
+  const ingredientsInput = wrapperDive.find({ name: "ingredients" });
+  const checkboxInput = wrapperDiveChild
     .childAt(2)
     .dive()
     .dive()

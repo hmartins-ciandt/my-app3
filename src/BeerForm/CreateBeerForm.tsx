@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  CardContent,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -30,67 +31,69 @@ function CreateBeerForm() {
   return (
     <div>
       <Card>
-        <FormControl>
-          <TextField
-            type="text"
-            name="beerName"
-            id="beerName"
-            label="Beer Name"
-            onChange={(e) => setName(e.target.value)}
-            required
-          ></TextField>
-
-          <label>
-            Type of Beer:
-            <Select
-              name="beerType"
-              id="beerType"
-              value={beerType}
-              onChange={(e: any) => setType(e.target.value)}
+        <CardContent>
+          <FormControl>
+            <TextField
+              type="text"
+              name="beerName"
+              id="beerName"
+              label="Beer Name"
+              onChange={(e) => setName(e.target.value)}
               required
-            >
-              <MenuItem value={""}>Selecione</MenuItem>
-              <MenuItem value={"ale"}>Ale</MenuItem>
-              <MenuItem value={"lager"}>Lager</MenuItem>
-              <MenuItem value={"stout"}>Stout</MenuItem>
-            </Select>
-          </label>
+            ></TextField>
 
-          <FormControlLabel
-            label="Has Corn:"
-            control={
-              <Checkbox
-                name="hasCorn"
-                id="hasCorn"
-                onChange={() => setCorn(!hasCorn)}
+            <label>
+              Type of Beer:
+              <Select
+                name="beerType"
+                id="beerType"
+                value={beerType}
+                onChange={(e: any) => setType(e.target.value)}
                 required
-              />
-            }
-          />
+              >
+                <MenuItem value={""}>Selecione</MenuItem>
+                <MenuItem value={"ale"}>Ale</MenuItem>
+                <MenuItem value={"lager"}>Lager</MenuItem>
+                <MenuItem value={"stout"}>Stout</MenuItem>
+              </Select>
+            </label>
 
-          <TextField
-            name="ingredients"
-            id="ingredients"
-            label="ingredients"
-            onChange={(e) => setIng(e.target.value)}
-            required
-          ></TextField>
+            <FormControlLabel
+              label="Has Corn:"
+              control={
+                <Checkbox
+                  name="hasCorn"
+                  id="hasCorn"
+                  onChange={() => setCorn(!hasCorn)}
+                  required
+                />
+              }
+            />
 
-          <Button
-            name="botao"
-            id="botao"
-            color="primary"
-            variant="contained"
-            onClick={() =>
-              console.log(
-                `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
-              )
-            }
-            disabled={!disableValid()}
-          >
-            Submit
-          </Button>
-        </FormControl>
+            <TextField
+              name="ingredients"
+              id="ingredients"
+              label="ingredients"
+              onChange={(e) => setIng(e.target.value)}
+              required
+            ></TextField>
+
+            <Button
+              name="botao"
+              id="botao"
+              color="primary"
+              variant="contained"
+              onClick={() =>
+                console.log(
+                  `beer name: ${beerName}\ntype of beer: ${beerType}\nhas corn: ${hasCorn}\ningredients: ${ingredients}`
+                )
+              }
+              disabled={!disableValid()}
+            >
+              Submit
+            </Button>
+          </FormControl>
+        </CardContent>
       </Card>
     </div>
   );

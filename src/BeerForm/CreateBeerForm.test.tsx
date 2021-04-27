@@ -20,14 +20,13 @@ test("should render a form and a button and the button be disabled", () => {
 
 test("should render a form and a button and when clicked should call console", () => {
   const wrapper = shallow(<CreateBeerForm />);
+  const wrapperChild = wrapper.childAt(0).childAt(0).childAt(0);
 
   //Given
   const nameInput = wrapper.find({ name: "beerName" });
   const selectInput = wrapper.find({ name: "beerType" });
   const ingredientsInput = wrapper.find({ name: "ingredients" });
-  const checkboxInput = wrapper
-    .childAt(0)
-    .childAt(0)
+  const checkboxInput = wrapperChild
     .childAt(2)
     .dive()
     .dive()

@@ -4,6 +4,7 @@ import * as yup from "yup";
 import {
   Button,
   Card,
+  CardContent,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -36,65 +37,69 @@ function CreateBeerFormikForm() {
       >
         {(formik) => (
           <Card>
-            <Form onSubmit={formik.handleSubmit}>
-              <FormControl>
-                <TextField
-                  type="text"
-                  name="beerName"
-                  id="beerName"
-                  label="Beer Name"
-                  onChange={formik.handleChange}
-                  required
-                ></TextField>
-                <label>
-                  Type of Beer:
-                  <Select
-                    name="beerType"
-                    id="beerType"
-                    value={formik.values.beerType}
+            <CardContent>
+              <Form onSubmit={formik.handleSubmit}>
+                <FormControl>
+                  <TextField
+                    type="text"
+                    name="beerName"
+                    id="beerName"
+                    label="Beer Name"
                     onChange={formik.handleChange}
                     required
-                  >
-                    <MenuItem value={""}>Selecione</MenuItem>
-                    <MenuItem value={"ale"}>Ale</MenuItem>
-                    <MenuItem value={"lager"}>Lager</MenuItem>
-                    <MenuItem value={"stout"}>Stout</MenuItem>
-                  </Select>
-                </label>
-                <FormControlLabel
-                  label="Has Corn:"
-                  control={
-                    <Checkbox
-                      name="hasCorn"
-                      id="hasCorn"
+                  ></TextField>
+                  <label>
+                    Type of Beer:
+                    <Select
+                      name="beerType"
+                      id="beerType"
+                      value={formik.values.beerType}
                       onChange={formik.handleChange}
-                    />
-                  }
-                />
-                <TextField
-                  name="ingredients"
-                  id="ingredients"
-                  label="ingredients"
-                  onChange={formik.handleChange}
-                  required
-                ></TextField>
-                <br />
-                <br />
-                <Button
-                  name="botao"
-                  id="botao"
-                  type="submit"
-                  color="secondary"
-                  variant="contained"
-                  disabled={!(formik.dirty && formik.isValid)}
-                  onClick={() => {
-                    console.log(`disabled :${formik.dirty && formik.isValid}`);
-                  }}
-                >
-                  Submit
-                </Button>
-              </FormControl>
-            </Form>
+                      required
+                    >
+                      <MenuItem value={""}>Selecione</MenuItem>
+                      <MenuItem value={"ale"}>Ale</MenuItem>
+                      <MenuItem value={"lager"}>Lager</MenuItem>
+                      <MenuItem value={"stout"}>Stout</MenuItem>
+                    </Select>
+                  </label>
+                  <FormControlLabel
+                    label="Has Corn:"
+                    control={
+                      <Checkbox
+                        name="hasCorn"
+                        id="hasCorn"
+                        onChange={formik.handleChange}
+                      />
+                    }
+                  />
+                  <TextField
+                    name="ingredients"
+                    id="ingredients"
+                    label="ingredients"
+                    onChange={formik.handleChange}
+                    required
+                  ></TextField>
+                  <br />
+                  <br />
+                  <Button
+                    name="botao"
+                    id="botao"
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    disabled={!(formik.dirty && formik.isValid)}
+                    onClick={() => {
+                      console.log(
+                        `disabled :${formik.dirty && formik.isValid}`
+                      );
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </FormControl>
+              </Form>
+            </CardContent>
           </Card>
         )}
       </Formik>

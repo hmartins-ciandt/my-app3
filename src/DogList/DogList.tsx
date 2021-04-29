@@ -30,7 +30,7 @@ function DogList() {
       <Card>
         <CardContent>
           <Grid item xs={1}>
-            <FormControl>
+            <FormControl style={{ minWidth: 120 }}>
               <InputLabel id="dogList">DogList</InputLabel>
               <Select
                 name="dogSelect"

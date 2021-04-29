@@ -3,6 +3,7 @@ import DogDetails from "./DogDetails/DogDetails";
 import CreateBeerForm from "./BeerForm/CreateBeerForm";
 import CreateBeerFormikForm from "./BeerFormik/CreateBeerFormikForm";
 import { Grid } from "@material-ui/core";
+import DogList from "./DogList/DogList";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           </Grid>
         </Grid>
       </Grid>
+      <DogList></DogList>
     </div>
   );
 }

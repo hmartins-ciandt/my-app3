@@ -9,7 +9,6 @@ async function fetchDogBreed() {
     })
   );
 
-  //console.log(listAll);
   return list.message;
 }
 

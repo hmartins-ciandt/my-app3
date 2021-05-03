@@ -27,10 +27,10 @@ function App() {
         </Grid>
 
         <Grid container spacing={3} justify="center">
-          <Grid item xs={5}>
+          <Grid item xs={5} className="grid">
             <CreateBeerForm />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={5} className="grid">
             <CreateBeerFormikForm />
           </Grid>
         </Grid>

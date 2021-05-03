@@ -12,3 +12,11 @@ label {
   line-height: 26px;
   margin-bottom: 10px;
 }
+
+img[src="N"] {
+  display: none;
+}
+
+.grid {
+  text-align: center;
+}

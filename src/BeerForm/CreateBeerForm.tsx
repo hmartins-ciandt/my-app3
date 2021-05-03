@@ -45,6 +45,7 @@ function CreateBeerForm() {
             <label>
               Type of Beer:
               <Select
+                style={{ minWidth: 120 }}
                 name="beerType"
                 id="beerType"
                 value={beerType}

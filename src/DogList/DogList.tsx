@@ -36,16 +36,16 @@ function DogList() {
     const dogList = await api.default(dogBreedName);
     setImage(dogList[0]);
   }, []);
-
   return (
     <div>
       <Card>
         <CardContent>
           <Grid item xs={1}>
-            <FormControl style={{ minWidth: 120 }}>
-              <InputLabel id="dogList">DogList</InputLabel>
+            <FormControl>
               <div>
+                <InputLabel id="dogList">DogList</InputLabel>
                 <Select
+                  style={{ minWidth: 120 }}
                   name="dogSelect"
                   value={dogBreed}
                   onChange={(e: any) => {
@@ -60,7 +60,7 @@ function DogList() {
                     </MenuItem>
                   ))}
                 </Select>
-                <img src={image} />
+                <img className="dogImage" src={image} alt="" />
               </div>
             </FormControl>
           </Grid>

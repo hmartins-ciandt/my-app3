@@ -53,6 +53,7 @@ function CreateBeerFormikForm() {
                     <Select
                       name="beerType"
                       id="beerType"
+                      style={{ minWidth: 120 }}
                       value={formik.values.beerType}
                       onChange={formik.handleChange}
                       required

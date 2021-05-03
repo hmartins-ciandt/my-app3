@@ -22,7 +22,9 @@ function DogList() {
 
   useEffect(() => {
     getList();
-    getListImage(dogBreed);
+    if (dogBreed !== "") {
+      getListImage(dogBreed);
+    }
   }, []);
 
   const getList = useCallback(async () => {
@@ -49,7 +51,6 @@ function DogList() {
                   name="dogSelect"
                   value={dogBreed}
                   onChange={(e: any) => {
-                    // console.log(e);
                     setDogBreed(e.target.value);
                     getListImage(e.target.value);
                   }}

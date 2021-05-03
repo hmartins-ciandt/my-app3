@@ -13,17 +13,29 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+import * as api from "./FetchDogImage";
 
 function DogList() {
   const [list, setList] = useState([]);
+  const [dogBreed, setDogBreed] = useState("");
+  const [image, setImage] = useState("");
+
   useEffect(() => {
     getList();
+    getListImage(dogBreed);
   }, []);
+
   const getList = useCallback(async () => {
     setList(await fetchDogBreed());
   }, []);
+
   const dogs = map(keys(list), capitalize).join("\n").split("\n");
-  const [dogBreed, setDogBreed] = useState("");
+
+  const getListImage = useCallback(async (dogBreedName: any) => {
+    dogBreedName = dogBreedName.toLowerCase();
+    const dogList = await api.default(dogBreedName);
+    setImage(dogList[0]);
+  }, []);
 
   return (
     <div>
@@ -32,20 +44,24 @@ function DogList() {
           <Grid item xs={1}>
             <FormControl style={{ minWidth: 120 }}>
               <InputLabel id="dogList">DogList</InputLabel>
-              <Select
-                name="dogSelect"
-                value={dogBreed}
-                onChange={(e: any) => {
-                  setDogBreed(e.target.value);
-                  console.log(e.target.value);
-                }}
-              >
-                {dogs.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <div>
+                <Select
+                  name="dogSelect"
+                  value={dogBreed}
+                  onChange={(e: any) => {
+                    // console.log(e);
+                    setDogBreed(e.target.value);
+                    getListImage(e.target.value);
+                  }}
+                >
+                  {dogs.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <img src={image} />
+              </div>
             </FormControl>
           </Grid>
         </CardContent>

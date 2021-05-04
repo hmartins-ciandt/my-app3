@@ -33,7 +33,6 @@ test("should render a select and change it's value", async () => {
   //When
   selectInput.prop("onChange")({ target: { value: "WolfHound" } });
   await flushPromises();
-  console.log(wrapper.find("img").at(0).props());
   //Then
   expect(wrapper.find("img").at(0).prop("src")).toBe(
     "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg"
@@ -42,7 +41,6 @@ test("should render a select and change it's value", async () => {
 
 test("should render a select", () => {
   const wrapper = shallow(<DogList />);
-  console.log(wrapper.find(Select).length);
   //Given
   const selectInput = wrapper.find(Select);
   const cardInput = wrapper.find(Card);

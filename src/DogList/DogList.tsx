@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../App.css";
-import { map } from "lodash";
-import { keys } from "lodash";
-import { capitalize } from "lodash";
+import { map, keys, capitalize } from "lodash";
 import fetchDogBreed from "./FetchDogBreed";
 import {
   Card,

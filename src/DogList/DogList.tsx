@@ -59,6 +59,7 @@ function DogList() {
                     </MenuItem>
                   ))}
                 </Select>
+
                 <img className="dogImage" src={image} alt="" />
               </div>
             </FormControl>

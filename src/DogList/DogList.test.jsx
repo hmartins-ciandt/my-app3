@@ -11,6 +11,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@material-ui/core";
+import Loader from "react-loader-spinner";
 
 configure({
   adapter: new Adapter(),
@@ -42,7 +43,6 @@ test("should render a select and change it's value", async () => {
 
 test("should render a select", () => {
   const wrapper = shallow(<DogList />);
-
   //Given
   const selectInput = wrapper.find(Select);
   const cardInput = wrapper.find(Card);
@@ -61,4 +61,29 @@ test("should render a select", () => {
   expect(inputLabelInput.length).toBe(1);
   expect(menuItemInput.length).toBe(1);
   expect(divInput.length).toBe(2);
+});
+
+test("should render Loader and img should not render", () => {
+  const wrapper = shallow(<DogList />);
+  //Given
+  const selectInput = wrapper.find(Select);
+  //When
+  selectInput.prop("onChange")({ target: { value: "WolfHound" } });
+  const loaderInput = wrapper.find(Loader);
+  const imgInput = wrapper.find("img");
+
+  //Then
+  expect(loaderInput.length).toBe(1);
+  expect(imgInput.length).toBe(0);
+});
+
+test("should render img and Loader should not render", () => {
+  const wrapper = shallow(<DogList />);
+  //Given
+  const loaderInput = wrapper.find(Loader);
+  const imgInput = wrapper.find("img");
+  //When
+  //Then
+  expect(loaderInput.length).toBe(0);
+  expect(imgInput.length).toBe(1);
 });

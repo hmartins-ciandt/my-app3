@@ -12,14 +12,21 @@ import {
   Select,
 } from "@material-ui/core";
 import * as api from "./FetchDogImage";
+import Loader from "react-loader-spinner";
+import { createTrue } from "typescript";
 
 function DogList() {
   const [list, setList] = useState([]);
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    getList();
+    setIsLoading(true);
+    setTimeout(() => {
+      getList();
+    }, 1000);
+
     if (dogBreed !== "") {
       getListImage(dogBreed);
     }
@@ -27,6 +34,7 @@ function DogList() {
 
   const getList = useCallback(async () => {
     setList(await fetchDogBreed());
+    setIsLoading(false);
   }, []);
 
   const dogs = map(keys(list), capitalize).join("\n").split("\n");
@@ -35,6 +43,7 @@ function DogList() {
     dogBreedName = dogBreedName.toLowerCase();
     const dogList = await api.default(dogBreedName);
     setImage(dogList[0]);
+    setIsLoading(false);
   }, []);
   return (
     <div>
@@ -49,6 +58,7 @@ function DogList() {
                   name="dogSelect"
                   value={dogBreed}
                   onChange={(e: any) => {
+                    setIsLoading(true);
                     setDogBreed(e.target.value);
                     getListImage(e.target.value);
                   }}
@@ -59,8 +69,11 @@ function DogList() {
                     </MenuItem>
                   ))}
                 </Select>
-
-                <img className="dogImage" src={image} alt="" />
+                {isLoading ? (
+                  <Loader type="ThreeDots" color="#00BFFF" />
+                ) : (
+                  <img className="dogImage" src={image} alt="" />
+                )}
               </div>
             </FormControl>
           </Grid>

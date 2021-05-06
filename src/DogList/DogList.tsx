@@ -13,9 +13,8 @@ import {
 } from "@material-ui/core";
 import * as api from "./FetchDogImage";
 import Loader from "react-loader-spinner";
-import { createTrue } from "typescript";
 
-function DogList() {
+function DogList(props: any) {
   const [list, setList] = useState([]);
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");
@@ -41,10 +40,13 @@ function DogList() {
 
   const getListImage = useCallback(async (dogBreedName: any) => {
     dogBreedName = dogBreedName.toLowerCase();
+
     const dogList = await api.default(dogBreedName);
     setImage(dogList[0]);
+    props.getImg(dogList[0]);
     setIsLoading(false);
   }, []);
+
   return (
     <div>
       <Card>
@@ -61,6 +63,7 @@ function DogList() {
                     setIsLoading(true);
                     setDogBreed(e.target.value);
                     getListImage(e.target.value);
+                    props.getDog(e.target.value);
                   }}
                 >
                   {dogs.map((name) => (

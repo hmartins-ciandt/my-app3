@@ -27,14 +27,15 @@ test("should render a select and change it's value", async () => {
         "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
       ])
     );
-  const wrapper = shallow(<DogList />);
+  const wrapper = shallow(
+    <DogList getDog={(dogBreed) => "nothing"} getImg={(image) => "nothing"} />
+  );
 
   //Given
   const selectInput = wrapper.find(Select).at(0);
   //When
-  selectInput.prop("onChange")({ target: { value: "WolfHound" } });
+  selectInput.prop("onChange")({ target: { value: "Wolfhound" } });
   await flushPromises();
-
   //Then
   expect(wrapper.find("img").at(0).prop("src")).toBe(
     "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg"
@@ -64,7 +65,16 @@ test("should render a select", () => {
 });
 
 test("should render Loader and img should not render", () => {
-  const wrapper = shallow(<DogList />);
+  api.default = jest
+    .fn()
+    .mockImplementation(() =>
+      Promise.resolve([
+        "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
+      ])
+    );
+  const wrapper = shallow(
+    <DogList getDog={(dogBreed) => "nothing"} getImg={(image) => "nothing"} />
+  );
   //Given
   const selectInput = wrapper.find(Select);
   //When
@@ -86,4 +96,41 @@ test("should render img and Loader should not render", () => {
   //Then
   expect(loaderInput.length).toBe(0);
   expect(imgInput.length).toBe(1);
+});
+
+test("should change the prop value", async () => {
+  api.default = jest
+    .fn()
+    .mockImplementation(() =>
+      Promise.resolve([
+        "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
+      ])
+    );
+  var dog;
+  var img;
+
+  const setDogBreed = (dogBreed) => {
+    dog = dogBreed;
+  };
+  const setImage = (image) => {
+    img = image;
+  };
+
+  const wrapper = shallow(
+    <DogList
+      getDog={(dogBreed) => setDogBreed(dogBreed)}
+      getImg={(image) => setImage(image)}
+    />
+  );
+  //Given
+  const selectInput = wrapper.find(Select).at(0);
+  //When
+  selectInput.prop("onChange")({ target: { value: "wolfhound" } });
+  await flushPromises();
+
+  //Then
+  expect(dog).toBe("wolfhound");
+  expect(img).toBe(
+    "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg"
+  );
 });

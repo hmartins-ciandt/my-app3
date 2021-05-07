@@ -14,7 +14,12 @@ import {
 import * as api from "./FetchDogImage";
 import Loader from "react-loader-spinner";
 
-function DogList(props: any) {
+interface dogListProps {
+  getDog: (dog: string) => void;
+  getImg: (image: string) => void;
+}
+
+function DogList(props: dogListProps) {
   const [list, setList] = useState([]);
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");

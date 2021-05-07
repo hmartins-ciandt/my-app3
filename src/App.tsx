@@ -40,8 +40,8 @@ function App() {
         </Grid>
       </Grid>
       <DogList
-        getDog={(dogBreed: any) => setDogBreed(dogBreed)}
-        getImg={(image: any) => setImage(image)}
+        getDog={(dogBreed: string) => setDogBreed(dogBreed)}
+        getImg={(image: string) => setImage(image)}
       />
     </div>
   );

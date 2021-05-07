@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "../App.css";
 
-function DogDetails({ dogName, dogImage, onBark }: any) {
+interface dogDetailProps {
+  dogName?: string;
+  dogImage: string;
+  onBark: () => void;
+}
+
+function DogDetails({ dogName, dogImage, onBark }: dogDetailProps) {
   const [count, setCount] = useState(0);
   return (
     <div>

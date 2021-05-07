@@ -38,7 +38,7 @@ function DogList(props: any) {
 
   const dogs = map(keys(list), capitalize).join("\n").split("\n");
 
-  const getListImage = useCallback(async (dogBreedName: any) => {
+  const getListImage = useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
 
     const dogList = await api.default(dogBreedName);
@@ -59,7 +59,7 @@ function DogList(props: any) {
                   style={{ minWidth: 120 }}
                   name="dogSelect"
                   value={dogBreed}
-                  onChange={(e: any) => {
+                  onChange={(e: React.ChangeEvent<any>) => {
                     setIsLoading(true);
                     setDogBreed(e.target.value);
                     getListImage(e.target.value);

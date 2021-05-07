@@ -17,6 +17,7 @@ import Loader from "react-loader-spinner";
 interface dogListProps {
   getDog: (dog: string) => void;
   getImg: (image: string) => void;
+  Scold: number;
 }
 
 function DogList(props: dogListProps) {
@@ -83,6 +84,7 @@ function DogList(props: dogListProps) {
                   <img className="dogImage" src={image} alt="" />
                 )}
               </div>
+              You scolded {dogBreed} {props.Scold} times{" "}
             </FormControl>
           </Grid>
         </CardContent>

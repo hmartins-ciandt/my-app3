@@ -45,24 +45,30 @@ test("should render a select and change it's value", async () => {
 
 test("should render a select", () => {
   const wrapper = shallow(<DogList />);
-  //Given
-  const selectInput = wrapper.find(Select);
-  const cardInput = wrapper.find(Card);
-  const cardContentInput = wrapper.find(CardContent);
-  const formControl = wrapper.find(FormControl);
-  const gridInput = wrapper.find(Grid);
-  const inputLabelInput = wrapper.find(InputLabel);
-  const menuItemInput = wrapper.find(MenuItem);
-  const divInput = wrapper.find("div");
   //Then
-  expect(selectInput.length).toBe(1);
-  expect(cardInput.length).toBe(1);
-  expect(cardContentInput.length).toBe(1);
-  expect(formControl.length).toBe(1);
-  expect(gridInput.length).toBe(1);
-  expect(inputLabelInput.length).toBe(1);
-  expect(menuItemInput.length).toBe(1);
-  expect(divInput.length).toBe(2);
+  expect(
+    wrapper.matchesElement(
+      <div>
+        <Card>
+          <CardContent>
+            <Grid item={true} xs={1}>
+              <FormControl>
+                <div>
+                  <InputLabel id="dogList">DogList</InputLabel>
+                  <Select name="dogSelect" value="">
+                    <MenuItem key="" value="">
+                      {""}
+                    </MenuItem>
+                  </Select>
+                  <img className="dogImage" src="" alt="" />
+                </div>
+              </FormControl>
+            </Grid>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  ).toBeTruthy();
 });
 
 test("should render Loader and img should not render", () => {

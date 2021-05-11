@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import "../App.css";
 import { map, keys, capitalize } from "lodash";
 import fetchDogBreed from "./FetchDogBreed";
@@ -41,7 +41,9 @@ function DogList(props: dogListProps) {
     setIsLoading(false);
   }, []);
 
-  const dogs = map(keys(list), capitalize).join("\n").split("\n");
+  const dogs = useMemo(() => {
+    return map(keys(list), capitalize).join("\n").split("\n");
+  }, [list]);
 
   const getListImage = useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
@@ -61,7 +63,6 @@ function DogList(props: dogListProps) {
               <div>
                 <InputLabel id="dogList">DogList</InputLabel>
                 <Select
-                  style={{ minWidth: 120 }}
                   name="dogSelect"
                   value={dogBreed}
                   onChange={(e: React.ChangeEvent<any>) => {

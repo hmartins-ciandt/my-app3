@@ -5,9 +5,7 @@ async function fetchDogImage(prop: any) {
     .get(apiUrl)
     .accept("json")
     .then((res) => res.body);
-
   // const list = await fetch(apiUrl).then((res) => res.json());
-
   return list.message;
 }
 

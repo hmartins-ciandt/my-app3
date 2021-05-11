@@ -1,6 +1,7 @@
 import CreateBeerForm from "./CreateBeerForm";
 import Adapter from "enzyme-adapter-react-16";
 import { shallow, configure } from "enzyme";
+import { Button, MenuItem, Select, TextField } from "@material-ui/core";
 configure({
   adapter: new Adapter(),
 });
@@ -48,6 +49,8 @@ test("should render a form and a button and when clicked should call console", (
 
 test("should render a form and a button", () => {
   const wrapper = shallow(<CreateBeerForm />);
+  const wrapperChild = wrapper.childAt(0).dive();
+
   //Given
   const buttonInput = wrapper.find({ name: "botao" });
   const nameInput = wrapper.find({ name: "beerName" });
@@ -56,9 +59,64 @@ test("should render a form and a button", () => {
   const checkboxInput = wrapper.find({ name: "hasCorn" });
   //When
   //Then
-  expect(buttonInput).toBeInTheDocument;
-  expect(nameInput).toBeInTheDocument;
-  expect(selectInput).toBeInTheDocument;
-  expect(ingredientsInput).toBeInTheDocument;
-  expect(checkboxInput).toBeInTheDocument;
+
+  expect(
+    wrapperChild.find("label").matchesElement(
+      <label>
+        Type of Beer:
+        <Select name="beerType" id="beerType" value="" required>
+          <MenuItem value={""}>Selecione</MenuItem>
+          <MenuItem value={"ale"}>Ale</MenuItem>
+          <MenuItem value={"lager"}>Lager</MenuItem>
+          <MenuItem value={"stout"}>Stout</MenuItem>
+        </Select>
+      </label>
+    )
+  ).toBe(true);
+
+  expect(
+    wrapperChild
+      .find(TextField)
+      .at(0)
+      .matchesElement(
+        <TextField
+          type="text"
+          name="beerName"
+          id="beerName"
+          label="Beer Name"
+          required
+        ></TextField>
+      )
+  ).toBe(true);
+
+  expect(
+    wrapperChild
+      .find(TextField)
+      .at(1)
+      .matchesElement(
+        <TextField
+          name="ingredients"
+          id="ingredients"
+          label="ingredients"
+          required
+        ></TextField>
+      )
+  ).toBe(true);
+
+  expect(
+    wrapperChild
+      .find(Button)
+
+      .matchesElement(
+        <Button
+          name="botao"
+          id="botao"
+          color="primary"
+          variant="contained"
+          disabled={true}
+        >
+          Submit
+        </Button>
+      )
+  ).toBe(true);
 });

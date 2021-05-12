@@ -3,7 +3,7 @@ import "../App.css";
 
 interface dogDetailProps {
   dogName?: string;
-  dogImage: string;
+  dogImage?: string;
   onBark: () => void;
   getScold: (count: number) => void;
 }

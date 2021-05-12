@@ -1,6 +1,17 @@
 import Adapter from "enzyme-adapter-react-16";
 import { shallow, configure } from "enzyme";
 import CreateBeerFormikForm from "./CreateBeerFormikForm";
+
+import {
+  Button,
+  CardContent,
+  FormControl,
+  FormControlLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import { Form } from "formik";
 configure({
   adapter: new Adapter(),
 });
@@ -77,20 +88,58 @@ test("should render a form and a button and when clicked should call a console",
 
 test("should render a form and a button", () => {
   const wrapper = shallow(<CreateBeerFormikForm />);
-  const wrapperChild = wrapper.childAt(0);
+  const wrapperChild = wrapper.childAt(0).dive();
+
   //Given
-  const buttonInput = wrapper.find({ name: "botao" });
-  const nameInput = wrapperChild.dive().find({ name: "beerName" });
-  const selectInput = wrapperChild.dive().find({ name: "beerType" });
-  const ingredientsInput = wrapperChild.dive().find({ name: "ingredients" });
-  const checkboxInput = wrapperChild.dive().find({ name: "hasCorn" });
+
   //When
+  expect(wrapperChild.find(Button).length).toBe(1);
+
   //Then
-  expect(buttonInput).toBeInTheDocument;
-  expect(nameInput).toBeInTheDocument;
-  expect(selectInput).toBeInTheDocument;
-  expect(ingredientsInput).toBeInTheDocument;
-  expect(checkboxInput).toBeInTheDocument;
+  expect(
+    wrapperChild.find(CardContent).matchesElement(
+      <CardContent>
+        <Form>
+          <FormControl>
+            <TextField
+              type="text"
+              name="beerName"
+              id="beerName"
+              label="Beer Name"
+              required
+            ></TextField>
+            <label>
+              Type of Beer:
+              <Select name="beerType" id="beerType" value="" required>
+                <MenuItem value={""}>Selecione</MenuItem>
+                <MenuItem value={"ale"}>Ale</MenuItem>
+                <MenuItem value={"lager"}>Lager</MenuItem>
+                <MenuItem value={"stout"}>Stout</MenuItem>
+              </Select>
+            </label>
+            <FormControlLabel />
+            <TextField
+              name="ingredients"
+              id="ingredients"
+              label="ingredients"
+              required
+            ></TextField>
+
+            <Button
+              name="botao"
+              id="botao"
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={true}
+            >
+              Submit
+            </Button>
+          </FormControl>
+        </Form>
+      </CardContent>
+    )
+  ).toBe(true);
 });
 
 test("should render a form and a button and the button be disabled", () => {

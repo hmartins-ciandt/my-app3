@@ -9,6 +9,9 @@ test("should render a dog name and a dog image", () => {
       dogImage={
         "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg"
       }
+      onBark={() => {
+        alert("alerta");
+      }}
     />
   );
 
@@ -46,7 +49,14 @@ test("should render a button and call an alert", () => {
 });
 
 test("should render a button and call a hook", () => {
-  render(<DogDetails dogName={"Rex"} />);
+  render(
+    <DogDetails
+      dogName={"Rex"}
+      onBark={() => {
+        alert("alerta");
+      }}
+    />
+  );
 
   //Given
   const buttonWrapper = screen.queryByText("Scold");

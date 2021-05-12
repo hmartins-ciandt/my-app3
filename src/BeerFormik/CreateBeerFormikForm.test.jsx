@@ -1,20 +1,17 @@
 import Adapter from "enzyme-adapter-react-16";
 import { shallow, configure } from "enzyme";
 import CreateBeerFormikForm from "./CreateBeerFormikForm";
-import * as yup from "yup";
 
 import {
   Button,
-  Card,
   CardContent,
-  Checkbox,
   FormControl,
   FormControlLabel,
   MenuItem,
   Select,
   TextField,
 } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import { Form } from "formik";
 configure({
   adapter: new Adapter(),
 });
@@ -100,64 +97,48 @@ test("should render a form and a button", () => {
 
   //Then
   expect(
-    wrapperChild.find("label").matchesElement(
-      <label>
-        Type of Beer:
-        <Select name="beerType" id="beerType" value="" required>
-          <MenuItem value={""}>Selecione</MenuItem>
-          <MenuItem value={"ale"}>Ale</MenuItem>
-          <MenuItem value={"lager"}>Lager</MenuItem>
-          <MenuItem value={"stout"}>Stout</MenuItem>
-        </Select>
-      </label>
+    wrapperChild.find(CardContent).matchesElement(
+      <CardContent>
+        <Form>
+          <FormControl>
+            <TextField
+              type="text"
+              name="beerName"
+              id="beerName"
+              label="Beer Name"
+              required
+            ></TextField>
+            <label>
+              Type of Beer:
+              <Select name="beerType" id="beerType" value="" required>
+                <MenuItem value={""}>Selecione</MenuItem>
+                <MenuItem value={"ale"}>Ale</MenuItem>
+                <MenuItem value={"lager"}>Lager</MenuItem>
+                <MenuItem value={"stout"}>Stout</MenuItem>
+              </Select>
+            </label>
+            <FormControlLabel />
+            <TextField
+              name="ingredients"
+              id="ingredients"
+              label="ingredients"
+              required
+            ></TextField>
+
+            <Button
+              name="botao"
+              id="botao"
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={true}
+            >
+              Submit
+            </Button>
+          </FormControl>
+        </Form>
+      </CardContent>
     )
-  ).toBe(true);
-
-  expect(
-    wrapperChild
-      .find(TextField)
-      .at(0)
-      .matchesElement(
-        <TextField
-          type="text"
-          name="beerName"
-          id="beerName"
-          label="Beer Name"
-          required
-        ></TextField>
-      )
-  ).toBe(true);
-
-  expect(
-    wrapperChild
-      .find(TextField)
-      .at(1)
-      .matchesElement(
-        <TextField
-          name="ingredients"
-          id="ingredients"
-          label="ingredients"
-          required
-        ></TextField>
-      )
-  ).toBe(true);
-
-  expect(
-    wrapperChild
-      .find(Button)
-
-      .matchesElement(
-        <Button
-          name="botao"
-          id="botao"
-          type="submit"
-          color="secondary"
-          variant="contained"
-          disabled={true}
-        >
-          Submit
-        </Button>
-      )
   ).toBe(true);
 });
 

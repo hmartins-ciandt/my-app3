@@ -89,9 +89,18 @@ test("should render Loader and img should not render", () => {
   selectInput.prop("onChange")({ target: { value: "WolfHound" } });
   const loaderInput = wrapper.find(Loader);
   const imgInput = wrapper.find("img");
-
   //Then
-  expect(loaderInput.length).toBe(1);
+  expect(
+    loaderInput.matchesElement(
+      <Loader
+        type="ThreeDots"
+        color="#00BFFF"
+        className=""
+        visible={true}
+        timeout={0}
+      />
+    )
+  ).toBe(true);
   expect(imgInput.length).toBe(0);
 });
 
@@ -100,10 +109,13 @@ test("should render img and Loader should not render", () => {
   //Given
   const loaderInput = wrapper.find(Loader);
   const imgInput = wrapper.find("img");
+
   //When
   //Then
   expect(loaderInput.length).toBe(0);
-  expect(imgInput.length).toBe(1);
+  expect(
+    imgInput.matchesElement(<img className="dogImage" src="" alt="" />)
+  ).toBe(true);
 });
 
 test("should change the prop value", async () => {

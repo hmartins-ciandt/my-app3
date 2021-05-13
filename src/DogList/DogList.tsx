@@ -18,6 +18,7 @@ interface dogListProps {
   getDog: (dog: string) => void;
   getImg: (image: string) => void;
   Scold: number;
+  getScold: (count: number) => void;
 }
 
 function DogList(props: dogListProps) {
@@ -46,6 +47,14 @@ function DogList(props: dogListProps) {
     return map(keys(list), capitalize).join("\n").split("\n");
   }, [list]);
 
+  const dogScold = useMemo(() => {
+    return Object.keys(list).map((dogName: string, index: number) => ({
+      id: index + 1,
+      name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
+      scoldCount: 0,
+    }));
+  }, [list]);
+
   const getListImage = useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
 
@@ -54,6 +63,27 @@ function DogList(props: dogListProps) {
     props.getImg(dogList[0]);
     setIsLoading(false);
   }, []);
+
+  function getScolded(dogName: string) {
+    for (let index = 0; index < dogs.length; index++) {
+      if (dogName === dogScold[index].name) {
+        if (dogScold[index].scoldCount === 0) {
+          return dogScold[index].scoldCount;
+        } else {
+          return props.Scold;
+        }
+      }
+    }
+  }
+
+  function setScolded(dogName: string) {
+    for (let index = 0; index < dogs.length; index++) {
+      if (dogName === dogScold[index].name) {
+        dogScold[index].scoldCount = props.Scold;
+        return dogScold[index].scoldCount;
+      }
+    }
+  }
 
   return (
     <div>
@@ -71,11 +101,13 @@ function DogList(props: dogListProps) {
                     setDogBreed(e.target.value);
                     getListImage(e.target.value);
                     props.getDog(e.target.value);
+                    props.getScold(setScolded(e.target.value)!);
+                    props.getScold(getScolded(e.target.value)!);
                   }}
                 >
-                  {dogs.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                  {dogScold.map((dog) => (
+                    <MenuItem key={dog.name} value={dog.name}>
+                      {dog.name}
                     </MenuItem>
                   ))}
                 </Select>

@@ -5,18 +5,17 @@ interface dogDetailProps {
   dogName?: string;
   dogImage?: string;
   onBark: () => void;
-  getScold: (count: number) => void;
-  Scold: number;
+  getCount: (count: number) => void;
+  count: number;
 }
 
 function DogDetails({
   dogName,
   dogImage,
   onBark,
-  getScold,
-  Scold,
+  getCount,
+  count,
 }: dogDetailProps) {
-  const [counter, setCount] = useState(0);
   return (
     <div>
       <img className="dogImage" src={dogImage} alt="" />
@@ -24,14 +23,13 @@ function DogDetails({
       <button onClick={() => onBark()}>Bark</button>
       <button
         onClick={() => {
-          setCount(counter + 1);
-          getScold(Scold + 1);
+          getCount(count + 1);
         }}
       >
         Scold
       </button>
       <h5>
-        You scolded {dogName} {counter} times{" "}
+        You scolded {dogName} {count} times{" "}
       </h5>
     </div>
   );

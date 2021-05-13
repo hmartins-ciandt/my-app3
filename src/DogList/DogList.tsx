@@ -17,8 +17,8 @@ import Loader from "react-loader-spinner";
 interface dogListProps {
   getDog: (dog: string) => void;
   getImg: (image: string) => void;
-  Scold: number;
-  getScold: (count: number) => void;
+  count: number;
+  getCount: (count: number) => void;
 }
 
 function DogList(props: dogListProps) {
@@ -47,7 +47,7 @@ function DogList(props: dogListProps) {
     return map(keys(list), capitalize).join("\n").split("\n");
   }, [list]);
 
-  const dogScold = useMemo(() => {
+  const allDogs = useMemo(() => {
     return Object.keys(list).map((dogName: string, index: number) => ({
       id: index + 1,
       name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
@@ -63,26 +63,43 @@ function DogList(props: dogListProps) {
     props.getImg(dogList[0]);
     setIsLoading(false);
   }, []);
-
-  function getScolded(dogName: string) {
+  //tenho que mudar o scoldcout sem mudar o scoldcount de outro dog
+  function setScoldCount(dogName: string) {
+    console.log(dogName);
     for (let index = 0; index < dogs.length; index++) {
-      if (dogName === dogScold[index].name) {
-        if (dogScold[index].scoldCount === 0) {
-          return dogScold[index].scoldCount;
+      if (dogName === allDogs[index].name) {
+        console.log("if acho dog" + props.count);
+        if (allDogs[index].scoldCount > props.count) {
+          console.log("scold>props" + props.count);
+          return allDogs[index].scoldCount;
+        }
+        if (allDogs[index].scoldCount === 0) {
+          console.log("scold=0" + props.count);
+
+          if (props.count > 0) {
+            console.log("scold>0" + props.count);
+            console.log(props.count);
+            return allDogs[index].scoldCount;
+          }
+          console.log("scold<=0" + props.count);
+
+          allDogs[index].scoldCount = props.count;
+          return allDogs[index].scoldCount;
         } else {
-          return props.Scold;
+          console.log("scold!=0" + props.count);
+
+          return allDogs[index].scoldCount;
         }
       }
     }
   }
 
-  function setScolded(dogName: string) {
-    for (let index = 0; index < dogs.length; index++) {
-      if (dogName === dogScold[index].name) {
-        dogScold[index].scoldCount = props.Scold;
-        return dogScold[index].scoldCount;
-      }
-    }
+  function updateDogData(event: React.ChangeEvent<any>) {
+    setIsLoading(true);
+    setDogBreed(event.target.value);
+    getListImage(event.target.value);
+    props.getDog(event.target.value);
+    props.getCount(setScoldCount(event.target.value)!);
   }
 
   return (
@@ -97,15 +114,10 @@ function DogList(props: dogListProps) {
                   name="dogSelect"
                   value={dogBreed}
                   onChange={(e: React.ChangeEvent<any>) => {
-                    setIsLoading(true);
-                    setDogBreed(e.target.value);
-                    getListImage(e.target.value);
-                    props.getDog(e.target.value);
-                    props.getScold(setScolded(e.target.value)!);
-                    props.getScold(getScolded(e.target.value)!);
+                    updateDogData(e);
                   }}
                 >
-                  {dogScold.map((dog) => (
+                  {allDogs.map((dog) => (
                     <MenuItem key={dog.name} value={dog.name}>
                       {dog.name}
                     </MenuItem>
@@ -117,7 +129,7 @@ function DogList(props: dogListProps) {
                   <img className="dogImage" src={image} alt="" />
                 )}
               </div>
-              You scolded {dogBreed} {props.Scold} times{" "}
+              You scolded {dogBreed} {props.count} times{" "}
             </FormControl>
           </Grid>
         </CardContent>

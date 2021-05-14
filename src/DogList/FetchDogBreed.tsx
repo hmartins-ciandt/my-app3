@@ -7,13 +7,6 @@ async function fetchDogBreed() {
     .then((res) => res.body);
 
   //const list = await fetch(apiUrl).then((res) => res.json());
-  const listAll = Object.keys(list.message).map(
-    (dogName: string, index: number) => ({
-      id: index + 1,
-      name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
-      scoldCount: 0,
-    })
-  );
   return list.message;
 }
 

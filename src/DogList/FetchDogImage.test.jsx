@@ -4,7 +4,6 @@ import { map, keys } from "lodash";
 test("it should call an DogImage API Service and return an array of images", async () => {
   const wolfhound = await fetchDogImage("wolfhound");
   var wolfhoundFetch;
-  console.log(wolfhound);
 
   //Give
   if (typeof wolfhound !== "string") {
@@ -18,7 +17,6 @@ test("it should call an DogImage API Service and return an array of images", asy
 test("it should call an DogImage API Service wronly and return a string message ", async () => {
   const duck = await fetchDogImage("duck");
   var duckFetch;
-  console.log(duck);
 
   //Given
   if (typeof duck !== "string") {

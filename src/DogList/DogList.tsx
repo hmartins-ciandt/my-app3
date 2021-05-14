@@ -26,34 +26,15 @@ function DogList(props: dogListProps) {
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [dogScold, setDogScold] = useState(0);
 
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      getList();
-    }, 1000);
-
-    if (dogBreed !== "") {
-      getListImage(dogBreed);
-    }
-  }, []);
-
-  const getList = useCallback(async () => {
-    setList(await fetchDogBreed());
+  const getList = async () => {
+    console.log("estou no callback");
+    const chamada = await fetchDogBreed();
+    console.log("chamada - " + chamada);
+    //setList(chamada);
     setIsLoading(false);
-  }, []);
-
-  const dogs = useMemo(() => {
-    return map(keys(list), capitalize).join("\n").split("\n");
-  }, [list]);
-
-  const allDogs = useMemo(() => {
-    return Object.keys(list).map((dogName: string, index: number) => ({
-      id: index + 1,
-      name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
-      scoldCount: 0,
-    }));
-  }, [list]);
+  };
 
   const getListImage = useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
@@ -63,33 +44,48 @@ function DogList(props: dogListProps) {
     props.getImg(dogList[0]);
     setIsLoading(false);
   }, []);
-  //tenho que mudar o scoldcout sem mudar o scoldcount de outro dog
-  function setScoldCount(dogName: string) {
-    console.log(dogName);
+
+  useEffect(() => {
+    console.log("estou no useEffect");
+    getList();
+  }, [getList]);
+
+  const dogs = useMemo(() => {
+    console.log("list dogs - " + list);
+    return map(keys(list), capitalize).join("\n").split("\n");
+  }, [list]);
+
+  const allDogs = useMemo(() => {
+    console.log("list allDogs - " + list);
+    return Object.keys(list).map((dogName: string, index: number) => ({
+      id: index + 1,
+      name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
+      scoldCount: 0,
+    }));
+  }, [list]);
+
+  function changeScoldCount(dogName: string) {
+    if (dogName === "") {
+      return 0;
+    }
+
     for (let index = 0; index < dogs.length; index++) {
       if (dogName === allDogs[index].name) {
-        console.log("if acho dog" + props.count);
-        if (allDogs[index].scoldCount > props.count) {
-          console.log("scold>props" + props.count);
-          return allDogs[index].scoldCount;
-        }
-        if (allDogs[index].scoldCount === 0) {
-          console.log("scold=0" + props.count);
+        allDogs[index].scoldCount = props.count;
+        return allDogs[index].scoldCount;
+      }
+    }
+  }
 
-          if (props.count > 0) {
-            console.log("scold>0" + props.count);
-            console.log(props.count);
-            return allDogs[index].scoldCount;
-          }
-          console.log("scold<=0" + props.count);
-
-          allDogs[index].scoldCount = props.count;
-          return allDogs[index].scoldCount;
-        } else {
-          console.log("scold!=0" + props.count);
-
-          return allDogs[index].scoldCount;
-        }
+  function getScoldCount(dogName: string) {
+    if (dogName === "") {
+      return 0;
+    }
+    console.log("Dogs - " + dogs);
+    console.log("All Dogs - " + allDogs);
+    for (let index = 0; index < dogs.length; index++) {
+      if (dogName === allDogs[index].name) {
+        return allDogs[index].scoldCount;
       }
     }
   }
@@ -99,7 +95,8 @@ function DogList(props: dogListProps) {
     setDogBreed(event.target.value);
     getListImage(event.target.value);
     props.getDog(event.target.value);
-    props.getCount(setScoldCount(event.target.value)!);
+    setDogScold(changeScoldCount(dogBreed)!);
+    props.getCount(getScoldCount(event.target.value)!);
   }
 
   return (
@@ -129,7 +126,13 @@ function DogList(props: dogListProps) {
                   <img className="dogImage" src={image} alt="" />
                 )}
               </div>
-              You scolded {dogBreed} {props.count} times{" "}
+              {image === "" ? (
+                <h5>Choose a dog</h5>
+              ) : (
+                <h5>
+                  You scolded {dogBreed} {props.count} times{" "}
+                </h5>
+              )}
             </FormControl>
           </Grid>
         </CardContent>

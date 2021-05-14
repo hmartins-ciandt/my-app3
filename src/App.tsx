@@ -11,16 +11,8 @@ function App() {
   const [image, setImage] = useState(
     "https://i.natgeofe.com/n/4f5aaece-3300-41a4-b2a8-ed2708a0a27c/domestic-dog_thumb.jpg"
   );
-  const [scold, setScold] = useState(0);
   const [count, setCount] = useState(0);
 
-  const handleCount = (number: number) => {
-    setCount(number);
-  };
-
-  const handleScold = (number: number) => {
-    setScold(number);
-  };
   return (
     <div>
       <button
@@ -37,7 +29,7 @@ function App() {
             dogImage={image}
             onBark={alertDisplay}
             count={count}
-            getCount={handleCount}
+            getCount={setCount}
           />
         </Grid>
         <Grid container spacing={3} justify="center">
@@ -50,10 +42,10 @@ function App() {
         </Grid>
       </Grid>
       <DogList
-        getDog={(dogBreed: string) => setDogBreed(dogBreed)}
-        getImg={(image: string) => setImage(image)}
+        getDog={setDogBreed}
+        getImg={setImage}
         count={count}
-        getCount={handleCount}
+        getCount={setCount}
       />
     </div>
   );

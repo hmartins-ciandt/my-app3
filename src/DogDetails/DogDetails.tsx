@@ -29,7 +29,7 @@ function DogDetails({
         Scold
       </button>
       <h5>
-        You scolded {dogName} {count} times{" "}
+        You scolded {dogName} {count} times
       </h5>
     </div>
   );

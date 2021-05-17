@@ -12,6 +12,7 @@ import {
   InputLabel,
 } from "@material-ui/core";
 import Loader from "react-loader-spinner";
+import React from "react";
 
 configure({
   adapter: new Adapter(),
@@ -20,15 +21,13 @@ configure({
 const flushPromises = () => new Promise(setImmediate);
 jest.mock("./FetchDogImage");
 jest.mock("./FetchDogBreed");
-jest.mock("react", () => ({
-  ...jest.requireActual("react"),
-  useCallback: (f) => f,
-  useMemo: (f) => f(),
-  useEffect: (f) => f(),
-}));
 
 describe("All the DogLists tests", () => {
-  test("should render a select and change it's value", async () => {
+  beforeEach(() => {
+    jest.spyOn(React, "useEffect").mockImplementationOnce((f) => f());
+    jest.spyOn(React, "useCallback").mockImplementation((f) => f);
+    jest.spyOn(React, "useMemo").mockImplementation((f) => f());
+
     fetchDogBreed.mockImplementation(() =>
       Promise.resolve({ Wolfhound: [""] })
     );
@@ -38,6 +37,9 @@ describe("All the DogLists tests", () => {
         "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
       ])
     );
+  });
+
+  test("should render a select and change it's value", async () => {
     const mockedFunction = jest.fn();
     const wrapper = shallow(
       <DogList
@@ -48,6 +50,7 @@ describe("All the DogLists tests", () => {
     );
 
     //Given
+    await flushPromises();
     const selectInput = wrapper.find(Select).at(0);
     //When
     selectInput.prop("onChange")({ target: { value: "wolfhound" } });
@@ -83,12 +86,7 @@ describe("All the DogLists tests", () => {
     ).toBe(true);
   });
 
-  test("should render Loader and img should not render", () => {
-    fetchDogImage.mockImplementation(() =>
-      Promise.resolve([
-        "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
-      ])
-    );
+  test("should render Loader and img should not render", async () => {
     const mockedFunction = jest.fn();
     const wrapper = shallow(
       <DogList
@@ -98,6 +96,7 @@ describe("All the DogLists tests", () => {
       />
     );
     //Given
+    await flushPromises();
     const selectInput = wrapper.find(Select);
     //When
     selectInput.prop("onChange")({ target: { value: "Wolfhound" } });
@@ -123,8 +122,6 @@ describe("All the DogLists tests", () => {
     //Given
     const loaderInput = wrapper.find(Loader);
     const imgInput = wrapper.find("img");
-
-    //When
     //Then
     expect(loaderInput.length).toBe(0);
     expect(
@@ -133,12 +130,6 @@ describe("All the DogLists tests", () => {
   });
 
   test("should change the prop value", async () => {
-    fetchDogImage.mockImplementation(() =>
-      Promise.resolve([
-        "https://images.dog.ceo/breeds/wolfhound-irish/n02090721_1002.jpg",
-      ])
-    );
-
     const mockedFunction = jest.fn();
     const wrapper = shallow(
       <DogList
@@ -148,6 +139,7 @@ describe("All the DogLists tests", () => {
       />
     );
     //Given
+    await flushPromises();
     const selectInput = wrapper.find(Select).at(0);
     //When
     selectInput.prop("onChange")({ target: { value: "Wolfhound" } });

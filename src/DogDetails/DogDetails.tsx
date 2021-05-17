@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import "../App.css";
 
-interface dogDetailProps {
+interface DogDetailProps {
   dogName?: string;
   dogImage?: string;
   onBark: () => void;
@@ -15,7 +14,7 @@ function DogDetails({
   onBark,
   getCount,
   count,
-}: dogDetailProps) {
+}: DogDetailProps) {
   return (
     <div>
       <img className="dogImage" src={dogImage} alt="" />

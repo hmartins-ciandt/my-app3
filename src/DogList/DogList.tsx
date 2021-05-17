@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useState } from "react";
 import "../App.css";
 import { map, keys, capitalize } from "lodash";
 import fetchDogBreed from "./FetchDogBreed";
@@ -11,52 +11,50 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
-import * as api from "./FetchDogImage";
+import fetchDogImage from "./FetchDogImage";
 import Loader from "react-loader-spinner";
 
-interface dogListProps {
+interface DogListProps {
   getDog: (dog: string) => void;
   getImg: (image: string) => void;
   count: number;
   getCount: (count: number) => void;
 }
 
-function DogList(props: dogListProps) {
-  const [list, setList] = useState([]);
+function DogList(props: DogListProps) {
+  const [list, setList] = useState({});
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [dogScold, setDogScold] = useState(0);
 
-  const getList = async () => {
-    console.log("estou no callback");
+  const getList = React.useCallback(async () => {
     const chamada = await fetchDogBreed();
-    console.log("chamada - " + chamada);
-    //setList(chamada);
+    setList(chamada);
     setIsLoading(false);
-  };
+  }, []);
 
-  const getListImage = useCallback(async (dogBreedName: string) => {
+  const getListImage = React.useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
 
-    const dogList = await api.default(dogBreedName);
+    const dogList = await fetchDogImage(dogBreedName);
     setImage(dogList[0]);
     props.getImg(dogList[0]);
     setIsLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log("estou no useEffect");
+  React.useEffect(() => {
     getList();
-  }, [getList]);
 
-  const dogs = useMemo(() => {
-    console.log("list dogs - " + list);
+    if (dogBreed !== "") {
+      getListImage(dogBreed);
+    }
+  }, []);
+
+  const dogs = React.useMemo(() => {
     return map(keys(list), capitalize).join("\n").split("\n");
   }, [list]);
 
-  const allDogs = useMemo(() => {
-    console.log("list allDogs - " + list);
+  const allDogs = React.useMemo(() => {
     return Object.keys(list).map((dogName: string, index: number) => ({
       id: index + 1,
       name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
@@ -65,10 +63,6 @@ function DogList(props: dogListProps) {
   }, [list]);
 
   function changeScoldCount(dogName: string) {
-    if (dogName === "") {
-      return 0;
-    }
-
     for (let index = 0; index < dogs.length; index++) {
       if (dogName === allDogs[index].name) {
         allDogs[index].scoldCount = props.count;
@@ -78,11 +72,6 @@ function DogList(props: dogListProps) {
   }
 
   function getScoldCount(dogName: string) {
-    if (dogName === "") {
-      return 0;
-    }
-    console.log("Dogs - " + dogs);
-    console.log("All Dogs - " + allDogs);
     for (let index = 0; index < dogs.length; index++) {
       if (dogName === allDogs[index].name) {
         return allDogs[index].scoldCount;
@@ -95,7 +84,7 @@ function DogList(props: dogListProps) {
     setDogBreed(event.target.value);
     getListImage(event.target.value);
     props.getDog(event.target.value);
-    setDogScold(changeScoldCount(dogBreed)!);
+    changeScoldCount(dogBreed)!;
     props.getCount(getScoldCount(event.target.value)!);
   }
 

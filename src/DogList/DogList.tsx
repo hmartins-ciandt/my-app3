@@ -19,51 +19,72 @@ interface DogListProps {
   getImg: (image: string) => void;
   count: number;
   getCount: (count: number) => void;
+  newList:{}
+  
 }
 
 function DogList(props: DogListProps) {
+  const [fetchList, setFetchList] = useState({});
+
   const [list, setList] = useState({});
   const [dogBreed, setDogBreed] = useState("");
   const [image, setImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const getList = React.useCallback(async () => {
-    const chamada = await fetchDogBreed();
-    setList(chamada);
-    setIsLoading(false);
+    const chamada = await fetchDogBreed();    
+    setFetchList(chamada);    
+     
+      setIsLoading(false);
   }, []);
 
   const getListImage = React.useCallback(async (dogBreedName: string) => {
     dogBreedName = dogBreedName.toLowerCase();
 
     const dogList = await fetchDogImage(dogBreedName);
-    setImage(dogList[0]);
-    props.getImg(dogList[0]);
+    setImage(dogList);
+    props.getImg(dogList);
     setIsLoading(false);
   }, []);
 
   React.useEffect(() => {
     getList();
+    setList(  props.newList);
+    //console.log(list)
+    //console.log(props.newList)
+    console.log(dogBreed)
+    setDogBreed("");
+    console.log(dogBreed)
+
+    setImage("");
+    props.getImg(""); 
 
     if (dogBreed !== "") {
       getListImage(dogBreed);
     }
-  }, []);
+  }, [props.newList]);
 
-  const dogs = React.useMemo(() => {
-    return map(keys(list), capitalize).join("\n").split("\n");
-  }, [list]);
 
   const allDogs = React.useMemo(() => {
-    return Object.keys(list).map((dogName: string, index: number) => ({
+    
+    if(Object.keys(list).length === 0 && list.constructor === Object){
+    return Object.keys(fetchList).map((dogName: string, index: number) => ({
       id: index + 1,
       name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
       scoldCount: 0,
     }));
-  }, [list]);
+  }else{
+    return Object.values(list).map((dogName: any, index: number) => ({
+      id: index + 1,
+      name: dogName.substring(0, 1).toUpperCase().concat(dogName.substring(1)),
+      scoldCount: 0,
+      }));
+  }
+  }, [fetchList, list]);
 
   function changeScoldCount(dogName: string) {
-    for (let index = 0; index < dogs.length; index++) {
+    console.log(allDogs)
+    for (let index = 0; index < allDogs.length; index++) {
       if (dogName === allDogs[index].name) {
         allDogs[index].scoldCount = props.count;
         return allDogs[index].scoldCount;
@@ -72,7 +93,7 @@ function DogList(props: DogListProps) {
   }
 
   function getScoldCount(dogName: string) {
-    for (let index = 0; index < dogs.length; index++) {
+    for (let index = 0; index < allDogs.length; index++) {
       if (dogName === allDogs[index].name) {
         return allDogs[index].scoldCount;
       }
@@ -86,6 +107,7 @@ function DogList(props: DogListProps) {
     props.getDog(event.target.value);
     changeScoldCount(dogBreed)!;
     props.getCount(getScoldCount(event.target.value)!);
+
   }
 
   return (

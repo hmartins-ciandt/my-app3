@@ -1,7 +1,7 @@
 import superagent from "superagent";
 async function fetchDogImage(prop: string) {
   try {
-    const apiUrl = `https://dog.ceo/api/breed/${prop}/images`;
+    const apiUrl = `https://dog.ceo/api/breed/${prop}/images/random`;
     const list = await superagent
       .get(apiUrl)
       .accept("json")

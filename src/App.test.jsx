@@ -8,6 +8,7 @@ import DogDetails from "./DogDetails/DogDetails";
 import CreateBeerForm from "./BeerForm/CreateBeerForm";
 import CreateBeerFormikForm from "./BeerFormik/CreateBeerFormikForm";
 import DogList from "./DogList/DogList";
+import DogFilter from "./DogFilter/DogFilter"
 
 configure({
   adapter: new Adapter(),
@@ -79,6 +80,8 @@ describe("All the App tests", () => {
             </Grid>
           </Grid>
           <DogList />
+          <DogFilter/>
+
         </div>
       )
     ).toBe(true);
